@@ -158,8 +158,12 @@ print('\n')
 # using pytorch model
 import torch  # noqa
 
-X = torch.tensor([[1], [2], [3], [4]], dtype=torch.float32)
-Y = torch.tensor([[2], [4], [6], [8]], dtype=torch.float32)
+X = torch.arange(start=1, end=5 + 1, step=1, dtype=torch.float32)
+Y = (lambda x: 2 * x)(X)
+
+# going from [1, 2, 3, 4, 5] -> [[1], [2], [3], [4], [5]]
+X = X.view(X.shape[0], 1)
+Y = Y.view(Y.shape[0], 1)
 
 X_test = torch.tensor([5], dtype=torch.float32)
 
