@@ -1,5 +1,3 @@
-# learning-deep-learning
-
 # Papers
 ## GANs
   - GAN: https://arxiv.org/pdf/1406.2661.pdf
