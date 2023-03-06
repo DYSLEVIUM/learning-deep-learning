@@ -12,4 +12,5 @@
   - StyleGAN: https://arxiv.org/abs/1812.04948
   - StyleGAN2: https://arxiv.org/abs/1912.04958
   - StyleGAN3: https://arxiv.org/abs/2201.13433
+  - StyleGAN-T: https://arxiv.org/abs/2301.09515
   - GauGAN: https://arxiv.org/abs/1903.07291
