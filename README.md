@@ -16,6 +16,7 @@
   - GauGAN: https://arxiv.org/abs/1903.07291
 
 ## Models
+  - UNet
   - ResNet:
   - VGG:
   - BERT:
