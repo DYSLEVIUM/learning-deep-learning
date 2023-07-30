@@ -14,3 +14,10 @@
   - StyleGAN3: https://arxiv.org/abs/2201.13433
   - StyleGAN-T: https://arxiv.org/abs/2301.09515
   - GauGAN: https://arxiv.org/abs/1903.07291
+
+## Models
+  - ResNet:
+  - VGG:
+  - BERT:
+  - Diffusion:
+  - Tranformers:
