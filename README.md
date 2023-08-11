@@ -22,3 +22,5 @@
   - BERT:
   - Diffusion:
   - Tranformers:
+  - Attention
+  - Whisper
