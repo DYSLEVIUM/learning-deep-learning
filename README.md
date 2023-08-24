@@ -17,6 +17,7 @@
 
 ## Models
   - ImageNet
+  - EfficientNet
   - UNet
   - ResNet:
   - VGG:
