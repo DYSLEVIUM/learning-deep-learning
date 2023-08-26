@@ -17,10 +17,10 @@
 
 ## Architecture
   1. UNet: https://arxiv.org/abs/1505.04597
+  1. ResNet: https://arxiv.org/abs/1512.03385
 ## Models
   1. ImageNet
   1. EfficientNet
-  1. ResNet:
   1. VGG:
   1. BERT:
   1. Diffusion:
