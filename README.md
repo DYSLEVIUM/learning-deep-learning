@@ -21,12 +21,17 @@
 ## Image Recognition
   1. ResNet: https://arxiv.org/pdf/1512.03385.pdf
   1. VGG: https://arxiv.org/pdf/1409.1556.pdf
-  1. GoogleNet: https://arxiv.org/pdf/1409.4842.pdf
+  1. GoogleNet (InceptionV1): https://arxiv.org/pdf/1409.4842.pdf
   1. LeNet: https://arxiv.org/pdf/1609.04112.pdf
-  1. AlexNet
+  1. AlexNet: https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf
   1. EfficientNet: https://arxiv.org/pdf/1905.11946.pdf
-  1. YOLOv1 (You Only Look Once)
-  1. YOLOv3
+  1. YOLOv1 (You Only Look Once): https://arxiv.org/pdf/1506.02640.pdf
+  1. YOLOv2: https://arxiv.org/pdf/1612.08242.pdf
+  1. YOLOv3: https://arxiv.org/pdf/1804.02767.pdf
+  1. YOLOv5
+  1. YOLOv6
+  1. YOLOv7
+  1. YOLOv8
 
 ## Models
   1. BERT:
