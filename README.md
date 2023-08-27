@@ -6,23 +6,29 @@
   1. GP: https://arxiv.org/pdf/1910.06922.pdf
   1. Pix2Pix: https://arxiv.org/pdf/1611.07004.pdf
   1. CycleGAN: https://arxiv.org/pdf/1703.10593.pdf
-  1. ProGAN: https://arxiv.org/abs/1710.10196v3
-  1. SRGAN: https://arxiv.org/abs/1609.04802
-  1. ESRGAN: https://arxiv.org/abs/1809.00219
-  1. StyleGAN: https://arxiv.org/abs/1812.04948
-  1. StyleGAN2: https://arxiv.org/abs/1912.04958
-  1. StyleGAN3: https://arxiv.org/abs/2201.13433
-  1. StyleGAN1.T: https://arxiv.org/abs/2301.09515
-  1. GauGAN: https://arxiv.org/abs/1903.07291
+  1. ProGAN: https://arxiv.org/pdf/1710.10196v3.pdf
+  1. SRGAN: https://arxiv.org/pdf/1609.04802.pdf
+  1. ESRGAN: https://arxiv.org/pdf/1809.00219.pdf
+  1. StyleGAN: https://arxiv.org/pdf/1812.04948.pdf
+  1. StyleGAN2: https://arxiv.org/pdf/1912.04958.pdf
+  1. StyleGAN3: https://arxiv.org/pdf/2201.13433.pdf
+  1. StyleGAN1.T: https://arxiv.org/pdf/2301.09515.pdf
+  1. GauGAN: https://arxiv.org/pdf/1903.07291.pdf
 
-## Architecture
-  1. UNet: https://arxiv.org/abs/1505.04597
-  1. ResNet: https://arxiv.org/abs/1512.03385
-  1. VGG: https://arxiv.org/abs/1409.1556
-## Models
-  1. GoogleNet
+## Image Segmentation
+  1. UNet: https://arxiv.org/pdf/1505.04597
+
+## Image Recognition
+  1. ResNet: https://arxiv.org/pdf/1512.03385.pdf
+  1. VGG: https://arxiv.org/pdf/1409.1556.pdf
+  1. GoogleNet: https://arxiv.org/pdf/1409.4842.pdf
+  1. LeNet: https://arxiv.org/pdf/1609.04112.pdf
   1. AlexNet
-  1. EfficientNet
+  1. EfficientNet: https://arxiv.org/pdf/1905.11946.pdf
+  1. YOLOv1 (You Only Look Once)
+  1. YOLOv3
+
+## Models
   1. BERT:
   1. Diffusion:
   1. Tranformers:
