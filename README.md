@@ -18,6 +18,7 @@
 ## Architecture
   1. UNet: https://arxiv.org/abs/1505.04597
   1. ResNet: https://arxiv.org/abs/1512.03385
+  1. VGG: https://arxiv.org/abs/1409.1556
 ## Models
   1. ImageNet
   1. EfficientNet
