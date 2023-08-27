@@ -24,7 +24,10 @@
   1. GoogleNet (InceptionV1): https://arxiv.org/pdf/1409.4842.pdf
   1. LeNet: https://arxiv.org/pdf/1609.04112.pdf
   1. AlexNet: https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf
-  1. EfficientNet: https://arxiv.org/pdf/1905.11946.pdf
+  1. EfficientNetV1: https://arxiv.org/pdf/1905.11946.pdf
+  1. MobileNet: https://arxiv.org/pdf/1704.04861.pdf
+  1. SENet: https://arxiv.org/pdf/1611.05431.pdf
+  1. ResNeXt: https://arxiv.org/pdf/1611.05431.pdf
   1. YOLOv1 (You Only Look Once): https://arxiv.org/pdf/1506.02640.pdf
   1. YOLOv2: https://arxiv.org/pdf/1612.08242.pdf
   1. YOLOv3: https://arxiv.org/pdf/1804.02767.pdf
