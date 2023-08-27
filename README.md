@@ -20,9 +20,9 @@
   1. ResNet: https://arxiv.org/abs/1512.03385
   1. VGG: https://arxiv.org/abs/1409.1556
 ## Models
-  1. ImageNet
+  1. GoogleNet
+  1. AlexNet
   1. EfficientNet
-  1. VGG:
   1. BERT:
   1. Diffusion:
   1. Tranformers:
