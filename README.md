@@ -77,3 +77,16 @@
   1. Attention Is All You Need: https://arxiv.org/pdf/1706.03762.pdf
   1. Whisper
   1. DINO Regularization: https://arxiv.org/pdf/2104.14294.pdf
+
+# Videos
+##Transformers
+  1. https://www.youtube.com/watch?v=XowwKOAWYoQ
+  1. https://www.youtube.com/watch?v=XSSTuhyAmnI
+  1. https://www.youtube.com/watch?v=iDulhoQ2pro
+  1. https://www.youtube.com/watch?v=kWLed8o5M2Y
+## CNN
+  1. https://www.youtube.com/watch?v=8iIdWHjleIs
+  1. https://www.youtube.com/watch?v=Lakz2MoHy6o&t=275s
+## Neural Networks
+  1. https://www.youtube.com/watch?v=pauPCy_s0Ok&t=9s
+  1. https://www.youtube.com/watch?v=FBpPjjhJGhk
