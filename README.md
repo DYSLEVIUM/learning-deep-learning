@@ -74,6 +74,6 @@
   1. BERT:
   1. Diffusion:
   1. Transformers:
-  1. Attention
+  1. Attention Is All You Need: https://arxiv.org/pdf/1706.03762.pdf
   1. Whisper
   1. DINO Regularization: https://arxiv.org/pdf/2104.14294.pdf
