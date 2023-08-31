@@ -57,6 +57,7 @@
 
 ## AI Photogrammetry
   1. Instant-NGP: https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf
+  1. NERF: https://arxiv.org/pdf/2003.08934.pdf
   1. LERF: https://arxiv.org/abs/2303.09553
   1. Instruct 3D-to-3D: https://arxiv.org/abs/2303.15780
   1. HyperReel: https://arxiv.org/abs/2301.02238
@@ -76,6 +77,7 @@
   1. Transformers:
   1. Attention Is All You Need: https://arxiv.org/pdf/1706.03762.pdf
   1. Whisper
+  1. Vision Transformers
   1. DINO Regularization: https://arxiv.org/pdf/2104.14294.pdf
 
 # Videos
