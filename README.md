@@ -12,6 +12,7 @@
   1. StyleGAN3: https://arxiv.org/pdf/2201.13433.pdf
   1. StyleGAN1.T: https://arxiv.org/pdf/2301.09515.pdf
   1. GauGAN: https://arxiv.org/pdf/1903.07291.pdf
+  1. GigaGAN: https://arxiv.org/pdf/2303.05511.pdf
 
 ## Super Resolution
   1. PULSE: https://arxiv.org/pdf/2003.03808.pdf
