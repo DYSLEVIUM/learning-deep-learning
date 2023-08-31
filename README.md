@@ -91,3 +91,5 @@
 ## Neural Networks
   1. https://www.youtube.com/watch?v=pauPCy_s0Ok&t=9s
   1. https://www.youtube.com/watch?v=FBpPjjhJGhk
+## Markov Chains
+  1. https://www.youtube.com/playlist?list=PLM8wYQRetTxBkdvBtz-gw8b9lcVkdXQKV
