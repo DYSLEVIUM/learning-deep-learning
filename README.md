@@ -21,6 +21,8 @@
 
 ## Image Segmentation
   1. UNet: https://arxiv.org/pdf/1505.04597
+  1. Attention U-Net: https://arxiv.org/pdf/1804.03999.pdf
+  1. R2U-Net: https://arxiv.org/ftp/arxiv/papers/1802/1802.06955.pdf
 
 ## Image Recognition
   1. ResNet: https://arxiv.org/pdf/1512.03385.pdf
