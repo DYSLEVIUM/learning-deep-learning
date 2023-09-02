@@ -87,6 +87,7 @@
   1. https://www.youtube.com/watch?v=XSSTuhyAmnI
   1. https://www.youtube.com/watch?v=iDulhoQ2pro
   1. https://www.youtube.com/watch?v=kWLed8o5M2Y
+  1. https://www.youtube.com/watch?v=bCz4OMemCcA
 ## CNN
   1. https://www.youtube.com/watch?v=8iIdWHjleIs
   1. https://www.youtube.com/watch?v=Lakz2MoHy6o&t=275s
