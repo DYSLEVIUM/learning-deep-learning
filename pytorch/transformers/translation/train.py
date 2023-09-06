@@ -3,7 +3,6 @@ from pathlib import Path  # returns absolute path, given relative path
 
 import torch
 import torch.nn as nn
-import torchmetrics
 from config import get_config, get_weights_file_path
 from dataset import BilingualDataset, causal_mask
 from datasets import load_dataset
@@ -265,8 +264,6 @@ def train_model(config):
         DEVICE
     )  # we want to ignore the padding to contribute to the loss
 
-    scaler = torch.cuda.amp.GradScaler()
-
     for epoch in range(initial_epoch, config["num_epochs"]):
         torch.cuda.empty_cache()
         batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
@@ -281,34 +278,31 @@ def train_model(config):
             encoder_mask = batch["encoder_mask"].to(DEVICE)  # (b, 1, 1, seq_len)
             decoder_mask = batch["decoder_mask"].to(DEVICE)  # (b, 1, seq_len, seq_len)
 
-            with torch.cuda.amp.autocast(dtype=torch.float16):
-                encoder_output = model.encode(
-                    encoder_input, encoder_mask
-                )  # (b, seq_len, d_model)
-                decoder_output = model.decode(
-                    encoder_output, encoder_mask, decoder_input, decoder_mask
-                )  # (b, seq_len, d_model)
-                proj_output = model.project(
-                    decoder_output
-                )  # (b, seq_len, tgt_vocab_size)
+            encoder_output = model.encode(
+                encoder_input, encoder_mask
+            )  # (b, seq_len, d_model)
+            decoder_output = model.decode(
+                encoder_output, encoder_mask, decoder_input, decoder_mask
+            )  # (b, seq_len, d_model)
+            proj_output = model.project(decoder_output)  # (b, seq_len, tgt_vocab_size)
 
-                label = batch["label"].to(DEVICE)  # (b, seq_len)
+            label = batch["label"].to(DEVICE)  # (b, seq_len)
 
-                # (b, seq_len, tgt_vocab_size) -> (b * seq_len, tgt_vocab_size)
-                loss = loss_fn(
-                    proj_output.view(-1, tokenizer_tgt.get_vocab_size()), label.view(-1)
-                )
+            # (b, seq_len, tgt_vocab_size) -> (b * seq_len, tgt_vocab_size)
+            loss = loss_fn(
+                proj_output.view(-1, tokenizer_tgt.get_vocab_size()), label.view(-1)
+            )
             batch_iterator.set_postfix({f"loss": f"{loss.item():6.3f}"})
 
             # log the loss
             writer.add_scalar("train loss", loss.item(), global_step)
             writer.flush()
 
+            loss.backward()
+
             # update the weights
             optimizer.zero_grad()
-            scaler.scale(loss).backward()
-            scaler.step(optimizer)
-            scaler.update()
+            optimizer.step()
 
             global_step += 1
 

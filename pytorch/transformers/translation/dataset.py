@@ -33,9 +33,11 @@ class BilingualDataset(Dataset):
         src_text = src_target_pair["translation"][self.src_lang]
         tgt_text = src_target_pair["translation"][self.tgt_lang]
 
+        # Transform the text into tokens
         enc_input_tokens = self.tokenizer_src.encode(src_text).ids
-        dec_input_tokens = self.tokenizer_src.encode(tgt_text).ids
+        dec_input_tokens = self.tokenizer_tgt.encode(tgt_text).ids
 
+        # Add sos, eos and padding to each sentence
         enc_num_padding_tokens = (
             self.seq_len - len(enc_input_tokens) - 2
         )  # -2 for the SOS and EOS
@@ -94,10 +96,7 @@ class BilingualDataset(Dataset):
             .unsqueeze(0)
             .unsqueeze(0)
             .int(),  # adding the sequence dimension and batch dimension -> (1, 1, seq_len)
-            "decoder_mask": (decoder_input != self.pad_token)
-            .unsqueeze(0)
-            .unsqueeze(0)
-            .int()
+            "decoder_mask": (decoder_input != self.pad_token).unsqueeze(0).int()
             & causal_mask(
                 decoder_input.size(0)
             ),  # casual mask, each word can look at previous and non padding words; (1, seq_len) & (1, seq_len, seq_len)
@@ -109,8 +108,8 @@ class BilingualDataset(Dataset):
 
 # basically a upper triangle matrix
 def causal_mask(size: int):
-    mask = torch.triu(torch.ones(1, size, size), diagonal=1).type(
-        torch.int64
+    mask = torch.triu(torch.ones((1, size, size)), diagonal=1).type(
+        torch.int
     )  # everything below the diagonal will be 0
 
     return mask == 0
