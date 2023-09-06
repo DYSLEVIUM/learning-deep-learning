@@ -16,6 +16,7 @@ from tokenizers.pre_tokenizers import Whitespace
 from tokenizers.trainers import WordLevelTrainer
 from torch.utils.data import DataLoader, Dataset, random_split
 from torch.utils.tensorboard import SummaryWriter
+from torchmetrics.text import BLEUScore, CharErrorRate, WordErrorRate
 from tqdm import tqdm
 
 
@@ -123,19 +124,19 @@ def run_validation(
     if writer:
         # Evaluate the character error rate
         # Compute the char error rate
-        metric = torchmetrics.CharErrorRate()
+        metric = CharErrorRate()
         cer = metric(predicted, expected)
         writer.add_scalar("validation cer", cer, global_step)
         writer.flush()
 
         # Compute the word error rate
-        metric = torchmetrics.WordErrorRate()
+        metric = WordErrorRate()
         wer = metric(predicted, expected)
         writer.add_scalar("validation wer", wer, global_step)
         writer.flush()
 
         # Compute the BLEU metric
-        metric = torchmetrics.BLEUScore()
+        metric = BLEUScore()
         bleu = metric(predicted, expected)
         writer.add_scalar("validation BLEU", bleu, global_step)
         writer.flush()
@@ -321,7 +322,7 @@ def train_model(config):
             lambda msg: batch_iterator.write(msg),
             global_step,
             writer,
-            5,
+            2,
         )
 
     # save the model at the end of every epoch
