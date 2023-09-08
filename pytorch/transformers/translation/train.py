@@ -1,4 +1,3 @@
-import gc
 from pathlib import Path  # returns absolute path, given relative path
 
 import torch
@@ -32,7 +31,7 @@ def greedy_decode(
     decoder_input = torch.empty(1, 1).fill_(sos_idx).type_as(source).to(device)
 
     while True:
-        if decoder_input.size(1) > max_len:  # first dimension is batch
+        if decoder_input.size(1) == max_len:  # first dimension is batch
             break
 
         # build the mask for the target (decoder input)
@@ -73,7 +72,7 @@ def run_validation(
     print_msg,
     global_step,
     writer,
-    num_examples,
+    num_examples=2,
 ):
     model.eval()
     count = 0
@@ -113,11 +112,12 @@ def run_validation(
             predicted.append(model_out_text)
 
             print_msg("-" * console_width)
-            print_msg(f"SOURCE: {source_text}")
-            print_msg(f"TARGET: {target_text}")
-            print_msg(f"PREDICTED: {model_out_text}")
+            print_msg(f"{f'SOURCE: ':>12}{source_text}")
+            print_msg(f"{f'TARGET: ':>12}{target_text}")
+            print_msg(f"{f'PREDICTED: ':>12}{model_out_text}")
 
             if count == num_examples:
+                print_msg("-" * console_width)
                 break
 
     if writer:
@@ -200,7 +200,7 @@ def get_dataset(config):
 
     for item in dataset_raw:
         src_ids = tokenizer_src.encode(item["translation"][config["lang_src"]]).ids
-        tgt_ids = tokenizer_src.encode(item["translation"][config["lang_tgt"]]).ids
+        tgt_ids = tokenizer_tgt.encode(item["translation"][config["lang_tgt"]]).ids
 
         max_len_src = max(max_len_src, len(src_ids))
         max_len_tgt = max(max_len_tgt, len(tgt_ids))
@@ -225,10 +225,6 @@ def get_model(config, vocab_src_len, vocab_tgt_len):
         config["seq_len"],
         config["seq_len"],
         config["d_model"],
-        6,
-        8,
-        0.1,
-        2048,
     )
 
 
@@ -266,11 +262,11 @@ def train_model(config):
 
     for epoch in range(initial_epoch, config["num_epochs"]):
         torch.cuda.empty_cache()
+        model.train()
+
         batch_iterator = tqdm(train_dataloader, desc=f"Processing epoch {epoch:02d}")
 
         for batch in batch_iterator:
-            model.train()
-
             encoder_input = batch["encoder_input"].to(DEVICE)  # (b, seq_len)
             decoder_input = batch["decoder_input"].to(DEVICE)  # (b, seq_len)
 
@@ -301,8 +297,10 @@ def train_model(config):
             loss.backward()
 
             # update the weights
-            optimizer.zero_grad()
             optimizer.step()
+            optimizer.zero_grad(
+                set_to_none=True
+            )  # reset the gradients to None instead of filling them with a tensor of zeroes
 
             global_step += 1
 
@@ -316,7 +314,6 @@ def train_model(config):
             lambda msg: batch_iterator.write(msg),
             global_step,
             writer,
-            2,
         )
 
     # save the model at the end of every epoch
@@ -325,7 +322,7 @@ def train_model(config):
         {
             "epoch": epoch,
             "model_state_dict": model.state_dict(),
-            "optimizer_state_dict": optimizer.state_dict,
+            "optimizer_state_dict": optimizer.state_dict(),
             "global_step": global_step,
         },
         model_filename,

@@ -4,57 +4,6 @@ import torch
 import torch.nn as nn
 
 
-class Embedding(nn.Module):
-    def __init__(self, d_model: int, vocab_size: int):
-        super(Embedding, self).__init__()
-
-        self.d_model = d_model
-        self.vocab_size = vocab_size
-        self.embedding = nn.Embedding(vocab_size, d_model)
-
-    def forward(self, x):
-        # multiply by sqrt(d_model) to scale the embeddings according to the paper
-        return self.embedding(x) * math.sqrt(self.d_model)
-
-
-class PositionalEncoding(nn.Module):
-    def __init__(self, d_model: int, seq_len: int, dropout: float):
-        super(PositionalEncoding, self).__init__()
-
-        self.d_model = d_model
-        self.seq_len = seq_len
-        self.dropout = nn.Dropout(dropout)
-
-        # create a matrix of shape (seq_len, d_model), we create matrix of this size as the longest sentence can be of seq_len
-        pe = torch.zeros(seq_len, d_model)  # positional_encoding
-
-        # pe(pos, 2i) = sin(pos/(10000^(2i/d_model)))
-        # pe(pos, 2i + 1) = cos(pos/(10000^(2i/d_model)))
-        # we will do a slightly modified calculation using log-space, as it is more numerically stable; this is based on the fact that when we do exponential and take log of the number, the resultant is the same number but is more stable
-
-        # (seq_len, 1)
-        position = torch.arange(0, seq_len, dtype=torch.float).unsqueeze(1)
-        div_term = torch.exp(
-            torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model)
-        )
-
-        # apply sin to even postions and cos to odd positions
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-
-        # adding a batch dimension to apply to batches of sentences; (1, seq_len, d_model)
-        pe = pe.unsqueeze(0)
-
-        self.register_buffer(
-            "pe", pe
-        )  # register a buffer that should not be considered a model parameter (learned parameter), but is part of the module's state
-
-    def forward(self, x):
-        x = x + (self.pe[:, : x.shape[1], :]).requires_grad_(False)
-
-        return self.dropout(x)
-
-
 class LayerNormalization(nn.Module):
     def __init__(
         self, eps: float = 1e-6
@@ -91,6 +40,70 @@ class FeedForwardBlock(nn.Module):
         )  # (batch, seq_len, d_model) -> (batch, seq_len, d_ff) -> (batch, seq_len, d_model)
 
 
+class Embedding(nn.Module):
+    def __init__(self, d_model: int, vocab_size: int):
+        super(Embedding, self).__init__()
+
+        self.d_model = d_model
+        self.vocab_size = vocab_size
+        self.embedding = nn.Embedding(vocab_size, d_model)
+
+    def forward(self, x):
+        # multiply by sqrt(d_model) to scale the embeddings according to the paper
+        return self.embedding(x) * math.sqrt(self.d_model)
+
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model: int, seq_len: int, dropout: float):
+        super(PositionalEncoding, self).__init__()
+        self.d_model = d_model
+        self.seq_len = seq_len
+        self.dropout = nn.Dropout(dropout)
+
+        # create a matrix of shape (seq_len, d_model), we create matrix of this size as the longest sentence can be of seq_len
+        pe = torch.zeros(seq_len, d_model)  # positional_encoding
+
+        # pe(pos, 2i) = sin(pos/(10000^(2i/d_model)))
+        # pe(pos, 2i + 1) = cos(pos/(10000^(2i/d_model)))
+        # we will do a slightly modified calculation using log-space, as it is more numerically stable; this is based on the fact that when we do exponential and take log of the number, the resultant is the same number but is more stable
+
+        # (seq_len, 1)
+        position = torch.arange(0, seq_len, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(
+            torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model)
+        )
+
+        # apply sin to even postions and cos to odd positions
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+
+        # adding a batch dimension to apply to batches of sentences; (1, seq_len, d_model)
+        pe = pe.unsqueeze(0)
+
+        self.register_buffer(
+            "pe", pe
+        )  # register a buffer that should not be considered a model parameter (learned parameter), but is part of the module's state
+
+    def forward(self, x):
+        x = x + (self.pe[:, : x.shape[1], :]).requires_grad_(False)
+
+        return self.dropout(x)
+
+
+class ResidualConnection(nn.Module):
+    def __init__(self, dropout: float):
+        super(ResidualConnection, self).__init__()
+
+        self.dropout = nn.Dropout(dropout)
+        self.norm = LayerNormalization()
+
+    def forward(self, x, sublayer):
+        # add and norm
+        return x + self.dropout(
+            sublayer(self.norm(x))
+        )  # in the paper, they apply first the sublayer then the normalization
+
+
 class MultiHeadAttentionBlock(nn.Module):
     def __init__(self, d_model: int, h: int, dropout: float):
         super(MultiHeadAttentionBlock, self).__init__()
@@ -99,12 +112,12 @@ class MultiHeadAttentionBlock(nn.Module):
 
         assert d_model % h == 0, "d_model is not divisible by heads"
 
-        self.d_k = d_model // h
-        self.w_q = nn.Linear(d_model, d_model)
-        self.w_k = nn.Linear(d_model, d_model)
-        self.w_v = nn.Linear(d_model, d_model)
+        self.d_k = d_model // h  # Dimension of vector seen by each head
 
-        self.w_o = nn.Linear(d_model, d_model)
+        self.w_q = nn.Linear(d_model, d_model, bias=False)
+        self.w_k = nn.Linear(d_model, d_model, bias=False)
+        self.w_v = nn.Linear(d_model, d_model, bias=False)
+        self.w_o = nn.Linear(d_model, d_model, bias=False)
         self.dropout = nn.Dropout(dropout)
 
     @staticmethod
@@ -117,10 +130,9 @@ class MultiHeadAttentionBlock(nn.Module):
 
         # hide the interation between words
         if mask is not None:
-            # attention_scores.masked_fill(mask == 0, -1e9)
             attention_scores.masked_fill_(
-                mask == 0, -1e30 if attention_scores.dtype == torch.float32 else -1e4
-            )  # mixed-precision operations
+                mask == 0, -1e9
+            )  # Write a very low value (indicating -inf) to the positions where mask == 0
 
         # # (batch, h, seq_len, d_k) -> (batch, h, seq_len, seq_len)
         attention_scores = attention_scores.softmax(
@@ -149,7 +161,7 @@ class MultiHeadAttentionBlock(nn.Module):
         key = split_and_transpose(key)
         value = split_and_transpose(value)
 
-        x, self.atten_scores = MultiHeadAttentionBlock.attention(
+        x, self.attention_scores = MultiHeadAttentionBlock.attention(
             query, key, value, mask, self.dropout
         )
 
@@ -160,20 +172,6 @@ class MultiHeadAttentionBlock(nn.Module):
 
         # (batch, seq_len, d_model) -> (batch, seq_len, d_model)
         return self.w_o(x)
-
-
-class ResidualConnection(nn.Module):
-    def __init__(self, dropout: float):
-        super(ResidualConnection, self).__init__()
-
-        self.dropout = nn.Dropout(dropout)
-        self.norm = LayerNormalization()
-
-    def forward(self, x, sublayer):
-        # add and norm
-        return x + self.dropout(
-            sublayer(self.norm(x))
-        )  # in the paper, they apply first the sublayer then the normalization
 
 
 class EncoderBlock(nn.Module):
@@ -187,18 +185,17 @@ class EncoderBlock(nn.Module):
 
         self.self_attention_block = self_attention_block  # it is called the self_attention because we give the query, keys and values is x itself, that is the words' attention to itself and others in the same sentence
         self.feed_forward_block = feed_forward_block
-        self.dropout = dropout
-        self.residual_connetions = nn.ModuleList(
+        self.residual_connections = nn.ModuleList(
             [ResidualConnection(dropout) for _ in range(2)]
         )
 
     def forward(
         self, x, src_mask
     ):  # we take the src_mask to hide the interaction of the padding with other words
-        x = self.residual_connetions[0](
+        x = self.residual_connections[0](
             x, lambda x: self.self_attention_block(x, x, x, src_mask)
         )
-        x = self.residual_connetions[1](x, self.feed_forward_block)
+        x = self.residual_connections[1](x, self.feed_forward_block)
 
         return x
 
