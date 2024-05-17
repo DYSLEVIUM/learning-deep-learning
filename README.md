@@ -1,5 +1,9 @@
 # Papers
 
+## Diffusion Models
+1. Denoising Diffusion Probabilistic Models: https://arxiv.org/pdf/2006.11239
+1. Diffusion Models Beat GANs on Image Synthesis: https://arxiv.org/pdf/2105.05233
+
 ## GANs
 
 1. GAN: https://arxiv.org/pdf/1406.2661.pdf
