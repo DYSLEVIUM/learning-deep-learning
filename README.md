@@ -1,5 +1,9 @@
 # Papers
 
+## NEAT
+1. https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf
+1. http://eplex.cs.ucf.edu/papers/stanley_gpem07.pdf
+
 ## Diffusion Models
 1. Denoising Diffusion Probabilistic Models: https://arxiv.org/pdf/2006.11239
 1. Diffusion Models Beat GANs on Image Synthesis: https://arxiv.org/pdf/2105.05233
