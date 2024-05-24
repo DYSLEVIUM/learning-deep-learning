@@ -1,8 +1,10 @@
 # Papers
 
 ## NEAT
-1. https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf
-1. http://eplex.cs.ucf.edu/papers/stanley_gpem07.pdf
+1. Evolving Neural Networks through
+Augmenting Topologies https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf
+1. Compositional Pattern Producing Networks:
+A Novel Abstraction of Development http://eplex.cs.ucf.edu/papers/stanley_gpem07.pdf
 
 ## Diffusion Models
 1. Denoising Diffusion Probabilistic Models: https://arxiv.org/pdf/2006.11239
